@@ -1,6 +1,7 @@
 import express from "express";
 import mongngoose from "mongoose";
 import dotenv from "dotenv";
+import EventRoutes from './routes/EventRoutes.js'
 import courseRoutes from './routes/courseRoutes.js';
 
 dotenv.config()
@@ -15,6 +16,9 @@ mongngoose.connect(process.env.PASSWORD_DB)
 }).catch((err)=>{
     console.log(err)
 })
+
+app.use('/api', EventRoutes);
+
 app.listen('3000', () => {
     console.log('Listening to port 3000')
 })

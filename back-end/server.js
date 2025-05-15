@@ -3,10 +3,13 @@ import mongngoose from "mongoose";
 import dotenv from "dotenv";
 import EventRoutes from './routes/EventRoutes.js'
 import courseRoutes from './routes/courseRoutes.js';
+import router from "./routes/userRoutes.js";
 
 dotenv.config()
 const app = express()
 app.use(express.json())
+app.use('/api', router);
+app.use('/api', EventRoutes);
 app.use('/api', courseRoutes);
 
 

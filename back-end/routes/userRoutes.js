@@ -54,9 +54,11 @@ router.post('/login', async (req,res) => {
 
         const isMatch = await bcrypt.compare(password,isIxist.password)
         if (isMatch) {
+
+
             const token = tokenGenerate(isIxist);
             res.status(200).json({
-                messege: 'Merhba biiik', token,
+                messege: 'Loggin successfully', token,
                 isIxist : {
                     id : isIxist._id,
                     name : isIxist.name,
@@ -65,7 +67,6 @@ router.post('/login', async (req,res) => {
                 }
 
             })
-
 
         }else{
             res.status(500).send('Sira 3end inak')

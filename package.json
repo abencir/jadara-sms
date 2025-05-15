@@ -4,10 +4,11 @@
   "main": "back-end/server.js",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon back-end/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "start": "node back-end/server.js",
+  "dev": "nodemon back-end/server.js",
+  "test": "echo \"Error: no test specified\" && exit 1"
+},
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/abencir/jadara-sms.git"
@@ -21,8 +22,10 @@
   "homepage": "https://github.com/abencir/jadara-sms#readme",
   "description": "",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.16.0",
     "mongoose": "^8.14.3",
     "nodemon": "^3.1.10"

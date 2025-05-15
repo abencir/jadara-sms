@@ -1,9 +1,13 @@
 import express from "express";
 import mongngoose from "mongoose";
 import dotenv from "dotenv";
+import courseRoutes from './routes/courseRoutes.js';
+
 dotenv.config()
 const app = express()
 app.use(express.json())
+app.use('/api', courseRoutes);
+
 
 mongngoose.connect(process.env.PASSWORD_DB)
 .then (() => {

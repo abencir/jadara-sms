@@ -4,8 +4,8 @@ const eventSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
-    trim: true,
-    unique: true
+    unique: true,
+
   },
   description: {
     type: String,
@@ -23,10 +23,10 @@ const eventSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
 })
 
 const Events = mongoose.model('event', eventSchema);

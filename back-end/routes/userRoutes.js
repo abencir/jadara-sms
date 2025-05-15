@@ -69,7 +69,7 @@ router.post('/login', async (req,res) => {
             })
 
         }else{
-            res.status(500).send('Sira 3end inak')
+            res.status(500).send('Ghleti a m3lem')
         }
     }catch(err){
         res.status(400).send(err)

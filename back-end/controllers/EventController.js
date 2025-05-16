@@ -11,7 +11,6 @@ export const createEvent = async (req, res) => {
     }
 };
 
-// Get all events
 export const getEvents = async (req, res) => {
     try {
         const events = await Events.find();
@@ -21,7 +20,7 @@ export const getEvents = async (req, res) => {
     }
 };
 
-// Get event by title
+
 export const getEventByTitle = async (req, res) => {
     const eventTitle = req.params.title;
     try {
@@ -35,7 +34,7 @@ export const getEventByTitle = async (req, res) => {
     }
 };
 
-// Update event by title
+
 export const updateEventByTitle = async (req, res) => {
     const eventTitle = req.params.title;
     const updatedEventData = req.body;
@@ -54,7 +53,7 @@ export const updateEventByTitle = async (req, res) => {
     }
 };
 
-// Delete event by title
+
 export const deleteEventByTitle = async (req, res) => {
     const eventTitle = req.params.title;
     try {

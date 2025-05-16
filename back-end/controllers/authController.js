@@ -1,11 +1,9 @@
-// controllers/authController.js
 import User from '../models/User.js';
 import Student from '../models/Student.js';
 import Admin from '../models/Admin.js';
 import bcrypt from 'bcrypt';
 import { tokenGenerate } from '../utils/jwt.js';
 
-// ========== REGISTER STUDENT =============== //
 export const studentRegister = async (req, res) => {
   const { email } = req.body;
   try {
@@ -18,7 +16,6 @@ export const studentRegister = async (req, res) => {
   }
 };
 
-// ========== REGISTER ADMIN =============== //
 export const adminRegister = async (req, res) => {
   const { email } = req.body;
   try {
@@ -31,7 +28,6 @@ export const adminRegister = async (req, res) => {
   }
 };
 
-// ========== LOGIN =============== //
 export const login = async (req, res) => {
   const { email, password } = req.body;
   try {

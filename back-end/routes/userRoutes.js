@@ -3,6 +3,7 @@ import Admin from '../models/Admin.js';
 import Student from '../models/Student.js';
 import bcrypt from 'bcrypt'
 import User from '../models/User.js';
+import adminRegister from '../controllers/userAuthRouts.js';
 import {tokenGenerate} from '../utils/jwt.js'
 
 
@@ -26,19 +27,7 @@ const router = express.Router();
     }
 });
 
- router.post('/adminRegister', async (req,res) => {
-    const {email} = req.body;
-    try{
-        const isIxist = await User.findOne({email})
-        if (isIxist){
-            return res.status(400).send('Wrong email or password')
-        }
-        const newAdmin = await Admin.create(req.body)
-        res.status(201).json(newAdmin) 
-    }catch(err){
-        res.status(400).send(err)
-    }
-});
+ router.post('/adminRegister', adminRegister );
 
 
 // =========== LOGIN ROUT ========//

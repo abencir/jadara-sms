@@ -1,26 +1,27 @@
 import express from "express";
-import mongngoose from "mongoose";
+import mongoose from "mongoose";
 import dotenv from "dotenv";
-import EventRoutes from './routes/EventRoutes.js'
+import EventRoutes from './routes/eventRoutes.js'
 import courseRoutes from './routes/courseRoutes.js';
 import router from "./routes/userRoutes.js";
+import notifRoutes from "./routes/notifRoutes.js"
 
 dotenv.config()
+
 const app = express()
+
 app.use(express.json())
-app.use('/api', router);
-app.use('/api', EventRoutes);
-app.use('/api', courseRoutes);
+app.use('/api/users', router);
+app.use('/api/events', EventRoutes);
+app.use('/api/courses', courseRoutes);
+app.use('/api/notifications', notifRoutes);
 
-
-mongngoose.connect(process.env.PASSWORD_DB)
+mongoose.connect(process.env.PASSWORD_DB)
 .then (() => {
-    console.log('Conected Success')
+    console.log('Conected Successfully')
 }).catch((err)=>{
-    console.log(err)
+    console.log('DB Connection error:', err)
 })
-
-app.use('/api', EventRoutes);
 
 app.listen('3000', () => {
     console.log('Listening to port 3000')

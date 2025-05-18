@@ -4,6 +4,7 @@ import Student from '../models/Student.js';
 import Admin from '../models/Admin.js';
 import bcrypt from 'bcrypt';
 import { tokenGenerate } from '../utils/jwt.js';
+import { createNotif } from './notifController.js';
 
 // ========== REGISTER STUDENT =============== //
 export const studentRegister = async (req, res) => {
@@ -40,6 +41,17 @@ export const login = async (req, res) => {
 
     const isMatch = await bcrypt.compare(password, isExist.password);
     if (!isMatch) return res.status(400).send('Incorrect password');
+
+    if (isExist.firstLogin) {
+      await createNotif({
+        userId: isExist._id,
+        type: 'first_login',
+        message: `Welcome to the platform, ${isExist.name}! We're excited to have you here. Explore your dashboard to get started 🚀.`,
+        isRead: false,
+      });
+      isExist.firstLogin = false;
+      await isExist.save();
+    }
 
     const token = tokenGenerate(isExist);
     res.status(200).json({

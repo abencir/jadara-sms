@@ -8,6 +8,7 @@ export const createNotif = async (data) => {
         return notif;
     } catch (error) {
         console.error('Error creating notification', error);
+        throw error;
     }
 };
 

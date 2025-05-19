@@ -1,11 +1,25 @@
 import Events from "../models/Event.js";
+import { createNotif } from "./notifController.js";
+import User from "../models/User.js";
+import Notification from "../models/notifications.js";
 
 export const createEvent = async (req, res) => {
     const newEvent = req.body;
     try {
         const event = new Events(newEvent);
         await event.save();
-        res.status(201).json({ message: 'Event created successfully', event });
+
+        const students = await User.find({role: 'Student'});
+
+        const notif = students.map((student) => ({
+            userId: student._id,
+            type: 'event_created',
+            message: `A new event "${event.title}" has been created. Check it out!`,
+        }));
+
+        await Notification.insertMany(notif);
+
+        res.status(201).json({ message: 'Event created successfully and notifications sent', event });
     } catch (error) {
         res.status(500).json({ message: 'Error creating event', error: error.message });
     }

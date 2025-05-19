@@ -6,13 +6,15 @@ import {
   updateCourse,
   deleteCourse,
 } from '../controllers/courseController.js';
+import authMiddleware from '../middlewares/authMiddleware.js';
+import adminAccess from '../middlewares/adminMiddelware.js';
 
 const router = express.Router();
 
-router.post('/createCourse', createCourse);         
-router.get('/courses', getCourses);             
-router.get('/course/:title', getCourseByTitle);       
-router.put('/updateCourse/:title', updateCourse);        
-router.delete('/deletCourse/:title', deleteCourse);     
+router.post('/course', authMiddleware, adminAccess ,createCourse);         
+router.get('/course', authMiddleware,getCourses);             
+router.get('/course/:title',authMiddleware, getCourseByTitle);       
+router.put('/course/:title', authMiddleware, adminAccess,updateCourse);        
+router.delete('/course/:title', authMiddleware, adminAccess,deleteCourse);     
 
 export default router;

@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import EventRoutes from "./routes/EventRoutes.js";
 import courseRoutes from './routes/courseRoutes.js';
-import router from "./routes/userRoutes.js";
+import router from "./routes/authRouters.js";
 import notifRoutes from "./routes/notifRoutes.js"
 
 dotenv.config()

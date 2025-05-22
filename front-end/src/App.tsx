@@ -1,5 +1,5 @@
-import './App.css'
-import MainPage from './pages/MainPage'
+import LoginPage from './pages/login'
+import SignUpPage from './pages/signup'
 
 
 function App() {
@@ -7,7 +7,8 @@ function App() {
 
   return (
     <>
-    <MainPage />
+    <LoginPage />
+    <SignUpPage/>
     </>
   )
 }

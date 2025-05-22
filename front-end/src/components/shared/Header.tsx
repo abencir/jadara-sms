@@ -5,8 +5,8 @@ const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 bg-white shadow-md px-4 py-3 flex items-center justify-between h-[10vh] ">
-      {/* Logo */}
+    <header className="fixed top-0 left-0 right-0 bg-white shadow-md px-4 py-3 flex items-center justify-between h-[10vh] z-[50]">
+
       <div className="md:static absolute left-1/2 transform -translate-x-1/2 md:translate-x-0 md:left-0 top-1/2 -translate-y-1/3 md:-translate-y-0 md:top-auto">
         <img
           src="/logojadara.png"
@@ -16,14 +16,12 @@ const Header: React.FC = () => {
       </div>
 
 
-      {/* Desktop Navigation Links */}
       <nav className="hidden md:flex gap-6 items-center ml-auto">
         <Link to="/login" className="text-gray-700 hover:text-blue-600">Login</Link>
         <Link to="/register" className="text-gray-700 hover:text-blue-600">Register</Link>
         <Link to="/about" className="text-gray-700 hover:text-blue-600">About Us</Link>
       </nav>
 
-      {/* Hamburger Menu Button (Mobile Only) */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="md:hidden text-[20px] ml-auto"
@@ -32,7 +30,6 @@ const Header: React.FC = () => {
         ☰
       </button>
 
-      {/* Sidebar Overlay */}
       <div
         className={`fixed inset-0 bg-black bg-opacity-40 transition-opacity duration-300 z-40 ${
           isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
@@ -40,7 +37,6 @@ const Header: React.FC = () => {
         onClick={() => setIsOpen(false)}
       />
 
-      {/* Mobile Sidebar Menu */}
       <div
         className={`fixed top-0 right-0 h-full w-64 bg-white shadow-lg z-50 transform transition-transform duration-300 ${
           isOpen ? 'translate-x-0' : 'translate-x-full'

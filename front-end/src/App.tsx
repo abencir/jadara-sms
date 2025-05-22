@@ -1,13 +1,23 @@
 import './App.css'
-import MainPage from './pages/MainPage'
-
+import CoursesList from './components/CoursList';
+import EventsSection from './components/EventSection';
 
 function App() {
 
 
   return (
     <>
-    <MainPage />
+    <header>
+
+    </header>
+    <main>
+      <CoursesList />
+      <EventsSection />
+    </main>
+    <footer>
+      
+    </footer>
+
     </>
   )
 }

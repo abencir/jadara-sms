@@ -1,24 +1,19 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Layout from './components/shared/Layout';
 import './App.css'
-import CoursesList from './components/CoursList';
-import EventsSection from './components/EventSection';
+import StudentDashboard from './pages/StudentDashboard';
 
 function App() {
 
 
   return (
-    <>
-    <header>
+    <Router>
+      <Routes>
+        <Route path='/' element={<Layout><div></div></Layout>}/>
+        <Route path='/studentdashboard' element={<Layout><StudentDashboard/></Layout>}/>
+      </Routes>
+    </Router>
 
-    </header>
-    <main>
-      <CoursesList />
-      <EventsSection />
-    </main>
-    <footer>
-      
-    </footer>
-
-    </>
   )
 }
 

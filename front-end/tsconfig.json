@@ -18,8 +18,10 @@
     "baseUrl": "src",
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "types": [
+      "@types/babel__core"
+    ]
   },
-  "include": ["src"],
-  // "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src"]
 }

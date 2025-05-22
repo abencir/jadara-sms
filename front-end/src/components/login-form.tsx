@@ -59,7 +59,10 @@ export function LoginForm({
               {error && <p className="text-sm text-red-600">{error}</p>}
 
               <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+                <div className="flex items-center">
+                  <Label htmlFor="email">Email</Label>
+                  <div className="ml-auto" />
+                </div>
                 <Input
                   id="email"
                   type="email"
@@ -68,6 +71,7 @@ export function LoginForm({
                   required
                 />
               </div>
+
 
               <div className="grid gap-2">
                 <div className="flex items-center">

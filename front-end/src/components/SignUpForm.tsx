@@ -70,48 +70,61 @@ export default function SignUpForm() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            {error && <p className="text-sm text-red-600">{error}</p>}
+  {error && <p className="text-sm text-red-600">{error}</p>}
 
-            <div className="grid gap-2">
-              <Label htmlFor="name">Name</Label>
-              <Input id="name" value={name} onChange={(e) => setName(e.target.value)} required />
-            </div>
+  <div className="grid gap-2">
+    <div className="flex items-center">
+      <Label htmlFor="name">Name</Label>
+      <div className="ml-auto" />
+    </div>
+    <Input id="name" value={name} onChange={(e) => setName(e.target.value)} required />
+  </div>
 
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            </div>
+  <div className="grid gap-2">
+    <div className="flex items-center">
+      <Label htmlFor="email">Email</Label>
+      <div className="ml-auto" />
+    </div>
+    <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+  </div>
 
-            <div className="grid gap-2">
-              <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-            </div>
+  <div className="grid gap-2">
+    <div className="flex items-center">
+      <Label htmlFor="password">Password</Label>
+      <div className="ml-auto" />
+    </div>
+    <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+  </div>
 
-            <div className="grid gap-2">
-              <Label htmlFor="courses">Courses</Label>
-              <Select onValueChange={setSelectedCourse}>
-                <SelectTrigger id="courses">
-                  <SelectValue placeholder="Select a course" />
-                </SelectTrigger>
-                <SelectContent>
-                  {courses.map((course) => (
-                    <SelectItem key={course.id} value={course.id}>
-                      {course.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+  <div className="grid gap-2">
+  <div className="flex items-center">
+    <Label htmlFor="courses">Courses</Label>
+    <div className="ml-auto" />
+  </div>
+  <Select onValueChange={setSelectedCourse}>
+    <SelectTrigger id="courses">
+      <SelectValue placeholder="Select a course" />
+    </SelectTrigger>
+    <SelectContent>
+      {courses.map((course) => (
+        <SelectItem key={course.id} value={course.id}>
+          {course.name}
+        </SelectItem>
+      ))}
+    </SelectContent>
+  </Select>
+</div>
 
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Signing Up..." : "Sign Up"}
-            </Button>
+  <Button type="submit" className="w-full" disabled={loading}>
+    {loading ? "Signing Up..." : "Sign Up"}
+  </Button>
 
-            <div className="text-center text-sm">
-              Already have an account?{" "}
-              <a href="/login" className="underline underline-offset-4">Login</a>
-            </div>
-          </form>
+  <div className="text-center text-sm">
+    Already have an account?{" "}
+    <a href="/login" className="underline underline-offset-4">Login</a>
+  </div>
+</form>
+
         </CardContent>
       </Card>
     </div>

@@ -17,6 +17,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 type Course = {
   id: string
@@ -31,12 +32,13 @@ export default function SignUpForm() {
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get('http://localhost:3000/api/courses/course')
       .then(({ data }) => {
         console.log("Fetched data:", data);
-        // If data.courses is the array:
+
         const coursesArray = data.courses || data; // fallback if no wrapper
         const mappedCourses = coursesArray.map((course: any) => ({
           id: course._id,
@@ -64,10 +66,10 @@ export default function SignUpForm() {
         course: selectedCourse,
       });
   
-      alert("Account created!");
+      navigate('/login');
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
-        const message = err.response.data || "";  // directly use the string response
+        const message = err.response.data || "";
         if (typeof message === "string" && message.toLowerCase().includes("email")) {
           setError("This email is already exist.");
         } else {

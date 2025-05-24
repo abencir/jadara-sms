@@ -49,30 +49,39 @@ export default function SignUpForm() {
         setError('Failed to load courses.');
       });
   }, []);
-  
-        
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError(null)
-
+  
+  
     try {
       const res = await axios.post('http://localhost:3000/api/users/studentRegister', {
         name,
         email,
         password,
         course: selectedCourse,
-      })
-            // Optional: Redirect or show success
-      alert("Account created!")
+      });
+  
+      alert("Account created!");
     } catch (err) {
-      console.error("Student Register Error:", err)
-      setError("Failed to sign up.")
+      if (axios.isAxiosError(err) && err.response) {
+        const message = err.response.data || "";  // directly use the string response
+        if (typeof message === "string" && message.toLowerCase().includes("email")) {
+          setError("This email is already exist.");
+        } else {
+          setError(message || "Registration failed");
+        }
+      } else {
+        setError("Registration failed");
+      }
+      setLoading(false);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
-
+  
   return (
     <div className="w-full max-w-md mx-auto px-4 py-6">
       <Card>
@@ -113,7 +122,7 @@ export default function SignUpForm() {
     <Label htmlFor="courses">Courses</Label>
     <div className="ml-auto" />
   </div>
-  <Select onValueChange={setSelectedCourse}>
+  <Select  value={selectedCourse} onValueChange={setSelectedCourse}>
     <SelectTrigger id="courses">
       <SelectValue placeholder="Select a course" />
     </SelectTrigger>

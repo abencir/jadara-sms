@@ -67,7 +67,7 @@ export default function LandingPage() {
       <section className="bg-blue-700 text-white py-16 text-center">
         <h2 className="text-3xl font-bold mb-4">Ready to start your journey?</h2>
         <p className="mb-6">Join Jadara and elevate your student experience through purposeful engagement.</p>
-        <a href="#login" className="inline-block bg-white text-blue-800 font-semibold px-6 py-3 rounded-lg hover:bg-gray-100">
+        <a href="/register" className="inline-block bg-white text-blue-800 font-semibold px-6 py-3 rounded-lg hover:bg-gray-100">
           Join Now
         </a>
       </section>

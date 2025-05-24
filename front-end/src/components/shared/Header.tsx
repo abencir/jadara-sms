@@ -8,11 +8,13 @@ const Header: React.FC = () => {
     <header className="fixed top-0 left-0 right-0 bg-white shadow-md px-4 py-3 flex items-center justify-between h-[10vh] z-[50]">
 
       <div className="md:static absolute left-1/2 transform -translate-x-1/2 md:translate-x-0 md:left-0 top-1/2 -translate-y-7 md:-translate-y-0 md:top-auto ">
+        <Link to='/'>
         <img
           src="/logojadara.png"
           alt="Jdara Logo"
           className=" h-[60px] w-auto object-contain"
         />
+        </Link>
       </div>
 
 

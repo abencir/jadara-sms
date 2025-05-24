@@ -8,14 +8,15 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
+import axios from 'axios';
 
 type Course = {
   id: string
@@ -32,29 +33,40 @@ export default function SignUpForm() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    fetch("/api/courses")
-      .then((res) => res.json())
-      .then((data) => setCourses(data))
-      .catch(() => setError("Failed to load courses."))
-  }, [])
-
+    axios.get('http://localhost:3000/api/courses/course')
+      .then(({ data }) => {
+        console.log("Fetched data:", data);
+        // If data.courses is the array:
+        const coursesArray = data.courses || data; // fallback if no wrapper
+        const mappedCourses = coursesArray.map((course: any) => ({
+          id: course._id,
+          name: course.title,
+        }));
+        setCourses(mappedCourses);
+      })
+      .catch((err) => {
+        console.error('Axios fetch error:', err);
+        setError('Failed to load courses.');
+      });
+  }, []);
+  
+        
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError(null)
 
     try {
-      const res = await fetch("/api/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password, courseId: selectedCourse }),
+      const res = await axios.post('http://localhost:3000/api/users/studentRegister', {
+        name,
+        email,
+        password,
+        course: selectedCourse,
       })
-
-      if (!res.ok) throw new Error("Sign up failed")
-
-      // Optional: Redirect or show success
+            // Optional: Redirect or show success
       alert("Account created!")
     } catch (err) {
+      console.error("Student Register Error:", err)
       setError("Failed to sign up.")
     } finally {
       setLoading(false)

@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
+import { useAuth } from '@/context/AuthContext';
 
 export function LoginForm({
   className,
@@ -22,7 +23,7 @@ export function LoginForm({
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const navigate = useNavigate();
-
+  const { login: saveUser } = useAuth();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -35,7 +36,9 @@ export function LoginForm({
       });
   
       const data = res.data;
-  
+      
+      saveUser({ email: data.user.email, role: data.user.role });
+
       // Redirect based on role
       if (data.user.role === 'Admin') {
         navigate('/admindashboard');

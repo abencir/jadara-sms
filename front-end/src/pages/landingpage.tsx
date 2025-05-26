@@ -20,7 +20,7 @@ export default function LandingPage() {
         <p className="text-gray-700 max-w-xl mx-auto mb-6">
           Jadara helps students manage their activities, track achievements, and grow through hands-on events.
         </p>
-        <a href="#login" className="inline-block bg-blue-700 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition">
+        <a href="/register" className="inline-block bg-blue-700 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition">
           Get Started
         </a>
       </section>

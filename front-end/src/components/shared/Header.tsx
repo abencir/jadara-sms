@@ -7,16 +7,18 @@ const Header: React.FC = () => {
   return (
     <header className="fixed top-0 left-0 right-0 bg-white shadow-md px-4 py-3 flex items-center justify-between h-[10vh] z-[50]">
 
-      <div className="md:static absolute left-1/2 transform -translate-x-1/2 md:translate-x-0 md:left-0 top-1/2 -translate-y-1/3 md:-translate-y-0 md:top-auto">
+      <div className="md:static absolute left-1/2 transform -translate-x-1/2 md:translate-x-0 md:left-0 top-1/2 -translate-y-7 md:-translate-y-0 md:top-auto ">
+        <Link to='/'>
         <img
           src="/logojadara.png"
           alt="Jdara Logo"
-          className="h-[45px] w-auto object-contain"
+          className=" h-[60px] w-auto object-contain"
         />
+        </Link>
       </div>
 
 
-      <nav className="hidden md:flex gap-6 items-center ml-auto">
+      <nav className="hidden md:flex gap-6 items-center ml-auto font-lora">
         <Link to="/login" className="text-gray-700 hover:text-blue-600">Login</Link>
         <Link to="/register" className="text-gray-700 hover:text-blue-600">Register</Link>
         <Link to="/about" className="text-gray-700 hover:text-blue-600">About Us</Link>
@@ -42,7 +44,7 @@ const Header: React.FC = () => {
           isOpen ? 'translate-x-0' : 'translate-x-full'
         } md:hidden`}
       >
-        <div className="p-6 flex flex-col space-y-4">
+        <div className="p-6 flex flex-col space-y-4 font-lora">
           <Link to="/login" onClick={() => setIsOpen(false)} className="text-gray-700 hover:text-blue-600">
             Login
           </Link>

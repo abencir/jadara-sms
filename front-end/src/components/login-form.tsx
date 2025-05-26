@@ -10,6 +10,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
+import axios from 'axios'
+import { useNavigate } from "react-router-dom";
 
 export function LoginForm({
   className,
@@ -19,30 +21,36 @@ export function LoginForm({
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setError(null)
-
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+  
     try {
-      const res = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      })
-
-      if (!res.ok) throw new Error("Login failed")
-
-      const data = await res.json()
-      // Optional: Save token to localStorage or redirect
-      alert("Logged in!")
+      const res = await axios.post('http://localhost:3000/api/users/login', {
+        email,
+        password,
+      });
+  
+      const data = res.data;
+  
+      // Redirect based on role
+      if (data.user.role === 'Admin') {
+        navigate('/admindashboard');
+      } else if (data.user.role === 'Student') {
+        navigate('/studentdashboard');
+      } else {
+        setError("Unknown role. Cannot redirect.");
+      }
     } catch (err) {
-      setError("Invalid credentials.")
+      console.error(err);
+      setError("Invalid credentials.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>

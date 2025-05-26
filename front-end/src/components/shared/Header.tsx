@@ -66,16 +66,46 @@ const Header: React.FC = () => {
         } md:hidden`}
       >
         <div className="p-6 flex flex-col space-y-4 font-lora">
-          <Link to="/login" onClick={() => setIsOpen(false)} className="text-gray-700 hover:text-blue-600">
-            Login
-          </Link>
-          <Link to="/register" onClick={() => setIsOpen(false)} className="text-gray-700 hover:text-blue-600">
-            Register
-          </Link>
-          <Link to="/about" onClick={() => setIsOpen(false)} className="text-gray-700 hover:text-blue-600">
-            About Us
-          </Link>
-        </div>
+  {user ? (
+    <>
+      <Link
+        to="/profile"
+        onClick={() => setIsOpen(false)}
+        className="text-gray-700 hover:text-blue-600"
+      >
+        Update Profile
+      </Link>
+      <button
+        onClick={() => {
+          logout();
+          setIsOpen(false);
+        }}
+        className="text-left text-gray-700 hover:text-blue-600"
+      >
+        Logout
+      </button>
+    </>
+  ) : (
+    <>
+      <Link
+        to="/login"
+        onClick={() => setIsOpen(false)}
+        className="text-gray-700 hover:text-blue-600"
+      >
+        Login
+      </Link>
+      <Link
+        to="/register"
+        onClick={() => setIsOpen(false)}
+        className="text-gray-700 hover:text-blue-600"
+      >
+        Register
+      </Link>
+    </>
+  )}
+  
+</div>
+
       </div>
     </header>
   );

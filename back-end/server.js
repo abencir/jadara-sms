@@ -5,12 +5,14 @@ import EventRoutes from "./routes/EventRoutes.js";
 import courseRoutes from './routes/courseRoutes.js';
 import router from "./routes/authRouters.js";
 import notifRoutes from "./routes/notifRoutes.js"
+import cors from "cors";
 
 dotenv.config()
 
 const app = express()
 
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
 app.use('/api/users', router);
 app.use('/api/events', EventRoutes);
 app.use('/api/courses', courseRoutes);

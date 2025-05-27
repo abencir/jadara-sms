@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, logout } = useAuth();
 
   return (
     <header className="fixed top-0 left-0 right-0 bg-white shadow-md px-4 py-3 flex items-center justify-between h-[10vh] z-[50]">
@@ -19,10 +21,29 @@ const Header: React.FC = () => {
 
 
       <nav className="hidden md:flex gap-6 items-center ml-auto font-lora">
-        <Link to="/login" className="text-gray-700 hover:text-blue-600">Login</Link>
-        <Link to="/register" className="text-gray-700 hover:text-blue-600">Register</Link>
-        <Link to="/about" className="text-gray-700 hover:text-blue-600">About Us</Link>
-      </nav>
+  {user ? (
+    <div className="relative group">
+      <button className="text-gray-700 hover:text-blue-600">
+        <img src='user.png' alt='user icon' style={{"height": "40px"}}/>
+      </button>
+      <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+        <Link to="/profile" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Update Profile</Link>
+        <button
+          onClick={logout}
+          className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+        >
+          Logout
+        </button>
+      </div>
+    </div>
+  ) : (
+    <>
+      <Link to="/login" className="text-gray-700 hover:text-blue-600">Login</Link>
+      <Link to="/register" className="text-gray-700 hover:text-blue-600">Register</Link>
+      <Link to="/about" className="text-gray-700 hover:text-blue-600">About Us</Link>
+    </>
+  )}
+</nav>
 
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -45,16 +66,46 @@ const Header: React.FC = () => {
         } md:hidden`}
       >
         <div className="p-6 flex flex-col space-y-4 font-lora">
-          <Link to="/login" onClick={() => setIsOpen(false)} className="text-gray-700 hover:text-blue-600">
-            Login
-          </Link>
-          <Link to="/register" onClick={() => setIsOpen(false)} className="text-gray-700 hover:text-blue-600">
-            Register
-          </Link>
-          <Link to="/about" onClick={() => setIsOpen(false)} className="text-gray-700 hover:text-blue-600">
-            About Us
-          </Link>
-        </div>
+  {user ? (
+    <>
+      <Link
+        to="/profile"
+        onClick={() => setIsOpen(false)}
+        className="text-gray-700 hover:text-blue-600"
+      >
+        Update Profile
+      </Link>
+      <button
+        onClick={() => {
+          logout();
+          setIsOpen(false);
+        }}
+        className="text-left text-gray-700 hover:text-blue-600"
+      >
+        Logout
+      </button>
+    </>
+  ) : (
+    <>
+      <Link
+        to="/login"
+        onClick={() => setIsOpen(false)}
+        className="text-gray-700 hover:text-blue-600"
+      >
+        Login
+      </Link>
+      <Link
+        to="/register"
+        onClick={() => setIsOpen(false)}
+        className="text-gray-700 hover:text-blue-600"
+      >
+        Register
+      </Link>
+    </>
+  )}
+  
+</div>
+
       </div>
     </header>
   );

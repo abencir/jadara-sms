@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 type PieData = {
   name: string;
@@ -34,33 +41,43 @@ const PieChartComponent = () => {
   }, []);
 
   return (
-    <div>
-      <h3 className="text-lg font-semibold mb-2">Course Enrollments</h3>
+    <div
+      className="w-full flex flex-col items-center justify-center 
+                 mt-4 md:mt-12 px-4"
+    >
+      <h3 className="text-xl md:text-2xl font-bold text-center mb-4 text-gray-700">
+        Course Enrollments
+      </h3>
+
       {data.length > 0 ? (
-        <PieChart width={400} height={250}>
-          <Pie
-            data={data}
-            dataKey="value"
-            nameKey="name"
-            cx="50%"
-            cy="50%"
-            outerRadius={90}
-            label={({ name, value }: { name: string; value: number }) =>
-              `${name}: ${value}`
-            }
-          >
-            {data.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
-              />
-            ))}
-          </Pie>
-          <Tooltip />
-          <Legend />
-        </PieChart>
+        <div className="w-full max-w-[400px]">
+          <ResponsiveContainer width="100%" height={300}>
+            <PieChart>
+              <Pie
+                data={data}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius={100}
+                label={({ name, value }: { name: string; value: number }) =>
+                  `${name}: ${value}`
+                }
+              >
+                {data.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+              <Tooltip />
+              <Legend verticalAlign="bottom" height={36} />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
       ) : (
-        <p>No data to display</p>
+        <p className="text-sm text-gray-500">No data to display</p>
       )}
     </div>
   );

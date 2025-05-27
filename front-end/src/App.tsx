@@ -1,16 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/shared/Layout';
-import './App.css'
-import MainPage from './pages/landingpage'
-
+import './App.css';
+import MainPage from './pages/landingpage';
 import StudentDashboard from './pages/StudentDashboard';
 import LoginPage from './pages/login';
 import SignUpPage from './pages/signup';
 import AdminDashboard from './pages/AdminDashboard'
 
 function App() {
-
-
   return (
     <Router>
       <Routes>
@@ -21,8 +18,7 @@ function App() {
         <Route path='/admindashboard' element={<Layout><AdminDashboard/></Layout>}/>
       </Routes>
     </Router>
-
-  )
+  );
 }
 
-export default App
+export default App;

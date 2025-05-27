@@ -41,7 +41,7 @@ export const UpdateStudent = async (req,res) => {
 }
 
 
-export const AdminDashboard = async (req, res) => {
+export const pieChart = async (req, res) => {
   try {
     
     const result = await User.aggregate([
@@ -53,17 +53,11 @@ export const AdminDashboard = async (req, res) => {
         }
       }
     ]);
-    
-    console.log(result); // تحقق من النتيجة
-
-    
+        
     const courseIds = result.map(item => item._id); 
 
    
     const courses = await course.find({ _id: { $in: courseIds } });
-    console.log(courses); 
-
-    
     const final = result.map(item => {
      
       const course = courses.find(c => c._id.toString() === item._id.toString());
@@ -79,5 +73,32 @@ export const AdminDashboard = async (req, res) => {
   } catch (err) {
     console.error("Dashboard Error:", err);
     res.status(500).json({ error: err.message });
+  }
+};
+
+
+export const barChart =  async (req, res) => {
+  try {
+    const data = await Student.aggregate([
+      {
+        $group: {
+          _id: { $month: "$createdAt" }, 
+          students: { $sum: 1 }, 
+        },
+      },
+      {
+        $sort: { _id: 1 },
+      },
+    ]);
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const formatted = data.map((item) => ({
+      month: monthNames[item._id - 1],
+      students: item.students,
+    }));
+
+    res.json(formatted);
+  } catch (error) {
+    console.error("Error fetching monthly student stats:", error);
+    res.status(500).json({ message: "Server error" });
   }
 };

@@ -35,7 +35,7 @@ export default function SignUpForm() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:3000/api/courses/course')
+    axios.get('http://localhost:5000/api/courses/course')
       .then(({ data }) => {
         console.log("Fetched data:", data);
 
@@ -59,7 +59,7 @@ export default function SignUpForm() {
   
   
     try {
-      const res = await axios.post('http://localhost:3000/api/users/studentRegister', {
+      const res = await axios.post('http://localhost:5000/api/users/studentRegister', {
         name,
         email,
         password,

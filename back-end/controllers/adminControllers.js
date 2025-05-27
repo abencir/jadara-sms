@@ -1,4 +1,6 @@
 import Student from "../models/Student.js";
+import User from "../models/User.js";
+import course from "../models/course.js";
 
 export const getStudents = async (req, res, next) => {
     try {
@@ -37,3 +39,45 @@ export const UpdateStudent = async (req,res) => {
         res.send(err + 'Error in Update')
     }
 }
+
+
+export const AdminDashboard = async (req, res) => {
+  try {
+    
+    const result = await User.aggregate([
+      { $match: { role: "Student" } }, 
+      {
+        $group: {
+          _id: "$course",  
+          count: { $sum: 1 }
+        }
+      }
+    ]);
+    
+    console.log(result); // تحقق من النتيجة
+
+    
+    const courseIds = result.map(item => item._id); 
+
+   
+    const courses = await course.find({ _id: { $in: courseIds } });
+    console.log(courses); 
+
+    
+    const final = result.map(item => {
+     
+      const course = courses.find(c => c._id.toString() === item._id.toString());
+      return {
+        name: course ? course.title : "Unknown",  
+        value: item.count
+      };
+    });
+
+   
+    res.json(final);
+
+  } catch (err) {
+    console.error("Dashboard Error:", err);
+    res.status(500).json({ error: err.message });
+  }
+};

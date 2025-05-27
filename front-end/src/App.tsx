@@ -8,6 +8,8 @@ import SignUpPage from './pages/signup';
 import CourseCrudPage from './components/CourseCrudPage';
 import './App.css'
 import UpdateProfile from './pages/UpdateProfile';
+import EventPage from './pages/EventPage';
+
 
 
 function App() {
@@ -20,6 +22,8 @@ function App() {
         <Route path='/studentdashboard' element={<Layout><StudentDashboard /></Layout>} />
         <Route path='/CourseCrudPage' element={<Layout><CourseCrudPage /></Layout>} />
         <Route path='/updateprofile' element={<Layout><UpdateProfile /></Layout>} />
+        <Route path='/eventpage' element={<Layout><EventPage /></Layout>} />
+        {/* Add more routes as needed */}
       </Routes>
     </Router>
   );

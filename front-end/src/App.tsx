@@ -6,6 +6,9 @@ import StudentDashboard from './pages/StudentDashboard';
 import LoginPage from './pages/login';
 import SignUpPage from './pages/signup';
 import CourseCrudPage from './components/CourseCrudPage';
+import './App.css'
+import UpdateProfile from './pages/UpdateProfile';
+
 
 function App() {
   return (

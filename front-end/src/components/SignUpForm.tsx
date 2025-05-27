@@ -45,7 +45,7 @@ export default function SignUpForm() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/courses/course")
+      .get("http://localhost:3000/api/courses")
       .then(({ data }) => {
         const coursesArray = data.courses || data;
         const mappedCourses = coursesArray.map((course: any) => ({

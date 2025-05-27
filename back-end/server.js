@@ -5,6 +5,7 @@ import EventRoutes from "./routes/EventRoutes.js";
 import courseRoutes from './routes/courseRoutes.js';
 import router from "./routes/authRouters.js";
 import notifRoutes from "./routes/notifRoutes.js"
+import admin from "./routes/adminRouters.js";
 import cors from "cors";
 
 dotenv.config()
@@ -17,6 +18,7 @@ app.use('/api/users', router);
 app.use('/api/events', EventRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/notifications', notifRoutes);
+app.use('/api/dashboard', admin)
 
 mongoose.connect(process.env.PASSWORD_DB)
 .then (() => {
@@ -25,8 +27,8 @@ mongoose.connect(process.env.PASSWORD_DB)
     console.log('DB Connection error:', err)
 })
 
-app.listen('3000', () => {
-    console.log('Listening to port 3000')
+app.listen('5000', () => {
+    console.log('Listening to port 5000')
 })
 
 

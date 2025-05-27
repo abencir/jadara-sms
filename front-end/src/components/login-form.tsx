@@ -39,15 +39,17 @@ export function LoginForm({
     setError(null);
 
     try {
-      const res = await axios.post('http://localhost:3000/api/users/login', {
+      const res = await axios.post('http://localhost:5000/api/users/login', {
         email,
         password,
       });
 
       const data = res.data;
 
-      saveUser({ email: data.user.email, role: data.user.role });
+      //  Save token to localStorage
+      localStorage.setItem("token", data.token);
 
+      // Redirect based on role
       if (data.user.role === 'Admin') {
         navigate('/admindashboard');
       } else if (data.user.role === 'Student') {

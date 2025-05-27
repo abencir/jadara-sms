@@ -1,4 +1,6 @@
 import Student from "../models/Student.js";
+import User from "../models/User.js";
+import course from "../models/course.js";
 
 export const getStudents = async (req, res, next) => {
     try {
@@ -37,3 +39,66 @@ export const UpdateStudent = async (req,res) => {
         res.send(err + 'Error in Update')
     }
 }
+
+
+export const pieChart = async (req, res) => {
+  try {
+    
+    const result = await User.aggregate([
+      { $match: { role: "Student" } }, 
+      {
+        $group: {
+          _id: "$course",  
+          count: { $sum: 1 }
+        }
+      }
+    ]);
+        
+    const courseIds = result.map(item => item._id); 
+
+   
+    const courses = await course.find({ _id: { $in: courseIds } });
+    const final = result.map(item => {
+     
+      const course = courses.find(c => c._id.toString() === item._id.toString());
+      return {
+        name: course ? course.title : "Unknown",  
+        value: item.count
+      };
+    });
+
+   
+    res.json(final);
+
+  } catch (err) {
+    console.error("Dashboard Error:", err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
+export const barChart =  async (req, res) => {
+  try {
+    const data = await Student.aggregate([
+      {
+        $group: {
+          _id: { $month: "$createdAt" }, 
+          students: { $sum: 1 }, 
+        },
+      },
+      {
+        $sort: { _id: 1 },
+      },
+    ]);
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const formatted = data.map((item) => ({
+      month: monthNames[item._id - 1],
+      students: item.students,
+    }));
+
+    res.json(formatted);
+  } catch (error) {
+    console.error("Error fetching monthly student stats:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};

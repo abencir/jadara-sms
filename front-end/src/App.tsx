@@ -11,6 +11,7 @@ import UpdateProfile from './pages/UpdateProfile';
 import EventPage from './pages/EventPage';
 
 
+import AdminDashboard from './pages/AdminDashboard'
 
 function App() {
   return (
@@ -23,7 +24,8 @@ function App() {
         <Route path='/CourseCrudPage' element={<Layout><CourseCrudPage /></Layout>} />
         <Route path='/updateprofile' element={<Layout><UpdateProfile /></Layout>} />
         <Route path='/eventpage' element={<Layout><EventPage /></Layout>} />
-        {/* Add more routes as needed */}
+        <Route path='/' element={<Layout><MainPage /></Layout>}/>
+        <Route path='/admindashboard' element={<Layout><AdminDashboard/></Layout>}/>
       </Routes>
     </Router>
   );

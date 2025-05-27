@@ -22,7 +22,9 @@ const userSchema = new Schema(
       default: true,
     },
   },
-  { discriminatorKey: 'role' }
+  { discriminatorKey: 'role',
+    timestamps : true
+   }
 );
 
 

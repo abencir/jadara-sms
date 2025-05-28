@@ -3,3 +3,4 @@
 /node_modules
 front-end/node_modules
 front-end/package-lock.json
+/front-end/package-lock.json

@@ -2,19 +2,19 @@ import express from "express";
 import {
   createEvent,
   getEvents,
-  updateEventByTitle,
-  deleteEventByTitle,
-  getEventByTitle,
+  getEventById,
+  updateEventById,
+  deleteEventById
 } from "../controllers/eventController.js";
 import authMiddleware from "../middlewares/authMiddleware.js";
 import adminAccess from "../middlewares/adminMiddelware.js";
 
 const router = express.Router();
 
-router.post("/",authMiddleware, adminAccess ,createEvent);
+router.post("/", createEvent);
 router.get("/", getEvents);
-router.get("/:title", getEventByTitle);
-router.put("/:title", authMiddleware, adminAccess ,updateEventByTitle);
-router.delete("/:title", authMiddleware, adminAccess , deleteEventByTitle);
+router.get("/:id", getEventById);
+router.put("/:id", updateEventById);
+router.delete("/:id", deleteEventById);
 
 export default router;

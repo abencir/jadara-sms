@@ -9,10 +9,7 @@ import CourseCrudPage from './components/CourseCrudPage';
 import './App.css'
 import UpdateProfile from './pages/UpdateProfile';
 import EventPage from './pages/EventPage';
-
-
-import AdminDashboard from './pages/AdminDashboard'
-import UpdateProfile from './pages/UpdateProfile';
+import AdminDashboard from './pages/AdminDashboard';
 
 function App() {
   return (

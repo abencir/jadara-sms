@@ -34,6 +34,17 @@ const Header: React.FC = () => {
         </Link>
       </div>
 
+      {user && (
+        <div className="md:hidden relative mr-4" ref={notifRef}>
+          <button onClick={toggleNotifications} className="relative">
+            <img src="/bell.png" alt="Notifications" className="h-6 w-6" />
+            {notifications.some(n => !n.isRead) && (
+              <span className="absolute top-0 right-0 inline-block w-2 h-2 bg-red-600 rounded-full" />
+            )}
+          </button>
+        </div>
+      )}
+
       <nav className="hidden md:flex gap-6 items-center ml-auto font-lora">
         {user ? (
           <>
@@ -73,7 +84,6 @@ const Header: React.FC = () => {
               )}
             </div>
 
-            {/* 👤 User Dropdown */}
             <div className="relative group">
               <button className="text-gray-700 hover:text-blue-600">
                 <img src="/user.png" alt="user icon" style={{ height: "40px" }} />
@@ -103,16 +113,14 @@ const Header: React.FC = () => {
         )}
       </nav>
 
-      {/* Hamburger for mobile */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="md:hidden text-[20px] ml-auto"
+        className="md:hidden text-[20px]"
         aria-label="Toggle Menu"
       >
         ☰
       </button>
 
-      {/* Mobile Overlay */}
       <div
         className={`fixed inset-0 bg-black bg-opacity-40 transition-opacity duration-300 z-40 ${
           isOpen ? "opacity-100 visible" : "opacity-0 invisible"
@@ -120,31 +128,70 @@ const Header: React.FC = () => {
         onClick={() => setIsOpen(false)}
       />
 
-      {/* Mobile Sidebar */}
       <div
         className={`fixed top-0 right-0 h-full w-64 bg-white shadow-lg z-50 transform transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         } md:hidden`}
       >
         <div className="p-6 flex flex-col space-y-4 font-lora">
+          {/* Mobile notifications dropdown */}
+          {showNotifs && (
+            <div className="mb-4">
+              <h3 className="text-md font-semibold mb-2">Notifications</h3>
+              {notifications.length === 0 ? (
+                <p className="text-sm text-gray-500">No notifications</p>
+              ) : (
+                <ul className="space-y-2 max-h-60 overflow-y-auto">
+                  {notifications.map((notif) => (
+                    <li key={notif._id} className={`p-2 rounded ${notif.isRead ? 'bg-gray-100' : 'bg-white'}`}>
+                      <p className="text-sm">{notif.message}</p>
+                      {!notif.isRead && (
+                        <button
+                          onClick={() => markAsRead(notif._id)}
+                          className="text-xs text-blue-500 hover:underline mt-1"
+                        >
+                          Mark as read
+                        </button>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+
           {user ? (
             <>
-              <Link
-                to="/profile"
-                onClick={() => setIsOpen(false)}
-                className="text-gray-700 hover:text-blue-600"
-              >
-                Update Profile
-              </Link>
-              <button
-                onClick={() => {
-                  logout();
-                  setIsOpen(false);
-                }}
-                className="text-left text-gray-700 hover:text-blue-600"
-              >
-                Logout
-              </button>
+              {!showNotifs && (
+                <>
+                  <button
+                    onClick={toggleNotifications}
+                    className="flex items-center text-gray-700 hover:text-blue-600"
+                  >
+                    <img src="/bell.png" alt="Notifications" className="h-5 w-5 mr-2" />
+                    Notifications
+                    {notifications.some(n => !n.isRead) && (
+                      <span className="ml-2 inline-block w-2 h-2 bg-red-600 rounded-full" />
+                    )}
+                  </button>
+                  <Link
+                    to="/profile"
+                    onClick={() => setIsOpen(false)}
+                    className="text-gray-700 hover:text-blue-600"
+                  >
+                    Update Profile
+                  </Link>
+                  <button
+                    onClick={() => {
+                      logout();
+                      setIsOpen(false);
+                    }}
+                    className="text-left text-gray-700 hover:text-blue-600"
+                  >
+                    Logout
+                  </button>
+                </>
+              )}
             </>
           ) : (
             <>
@@ -161,6 +208,13 @@ const Header: React.FC = () => {
                 className="text-gray-700 hover:text-blue-600"
               >
                 Register
+              </Link>
+              <Link
+                to="/about"
+                onClick={() => setIsOpen(false)}
+                className="text-gray-700 hover:text-blue-600"
+              >
+                About Us
               </Link>
             </>
           )}

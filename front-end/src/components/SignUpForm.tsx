@@ -16,7 +16,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 
@@ -38,15 +37,20 @@ export default function SignUpForm() {
   const { user } = useAuth();
 
   useEffect(() => {
+    // Redirect if user is already logged in
     if (user) {
       navigate(user.role === "Admin" ? "/admindashboard" : "/studentdashboard");
     }
   }, [user, navigate]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/courses")
-      .then(({ data }) => {
+    // Fetch courses using fetch API
+    fetch("http://localhost:5000/api/courses/course")
+      .then((response) => {
+        if (!response.ok) throw new Error("Failed to fetch courses");
+        return response.json();
+      })
+      .then((data) => {
         const coursesArray = data.courses || data;
         const mappedCourses = coursesArray.map((course: any) => ({
           id: course._id,
@@ -55,7 +59,7 @@ export default function SignUpForm() {
         setCourses(mappedCourses);
       })
       .catch((err) => {
-        console.error("Axios fetch error:", err);
+        console.error("Fetch error:", err);
         setError("Failed to load courses.");
       });
   }, []);
@@ -66,25 +70,36 @@ export default function SignUpForm() {
     setError(null);
 
     try {
-      await axios.post("http://localhost:3000/api/users/studentRegister", {
-        name,
-        email,
-        password,
-        course: selectedCourse,
+      const response = await fetch("http://localhost:5000/api/users/studentRegister", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          course: selectedCourse,
+        }),
       });
 
-      navigate("/login");
-    } catch (err) {
-      if (axios.isAxiosError(err) && err.response) {
-        const message = err.response.data || "";
+      if (!response.ok) {
+        const errorData = await response.json();
+        const message = errorData || "";
         if (typeof message === "string" && message.toLowerCase().includes("email")) {
           setError("This email already exists.");
         } else {
           setError(message || "Registration failed");
         }
-      } else {
-        setError("Registration failed");
+        setLoading(false);
+        return;
       }
+
+      // Success - redirect to login page
+      navigate("/login");
+    } catch (err) {
+      console.error("Registration error:", err);
+      setError("Registration failed");
     } finally {
       setLoading(false);
     }
@@ -103,17 +118,34 @@ export default function SignUpForm() {
 
             <div className="grid gap-2">
               <Label htmlFor="name">Name</Label>
-              <Input id="name" value={name} onChange={(e) => setName(e.target.value)} required />
+              <Input
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
             </div>
 
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
             </div>
 
             <div className="grid gap-2">
               <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
             </div>
 
             <div className="grid gap-2">

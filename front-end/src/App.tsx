@@ -21,7 +21,7 @@ function App() {
         <Route path='/login' element={<Layout><LoginPage /></Layout>} />
         <Route path='/register' element={<Layout><SignUpPage /></Layout>} />
         <Route path='/studentdashboard' element={<Layout><StudentDashboard /></Layout>} />
-        <Route path='/CourseCrudPage' element={<Layout><CourseCrudPage /></Layout>} />
+        <Route path='/course' element={<Layout><CourseCrudPage /></Layout>} />
         <Route path='/updateprofile' element={<Layout><UpdateProfile /></Layout>} />
         <Route path='/eventpage' element={<Layout><EventPage /></Layout>} />
         <Route path='/' element={<Layout><MainPage /></Layout>}/>

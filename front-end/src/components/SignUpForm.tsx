@@ -45,7 +45,7 @@ export default function SignUpForm() {
 
   useEffect(() => {
     // Fetch courses using fetch API
-    fetch("http://localhost:5000/api/courses/course")
+    fetch("http://localhost:5000/api/courses")
       .then((response) => {
         if (!response.ok) throw new Error("Failed to fetch courses");
         return response.json();

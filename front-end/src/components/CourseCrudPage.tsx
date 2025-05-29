@@ -1,69 +1,77 @@
 import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
 
 type Course = {
-  id: number;
+  _id?: string;
   title: string;
   description: string;
 };
 
+const API_BASE = "http://localhost:5000/api/courses";
+
 const CourseCrudPage: React.FC = () => {
   const [courses, setCourses] = useState<Course[]>([]);
-  const [formData, setFormData] = useState<Omit<Course, "id"> & { id: number | null }>({
-    id: null,
-    title: "",
-    description: "",
-  });
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [formData, setFormData] = useState<Course>({ title: "", description: "" });
+  const [isEditing, setIsEditing] = useState(false);
+  const [editId, setEditId] = useState<string | null>(null);
 
   useEffect(() => {
-    const storedCourses = localStorage.getItem("courses");
-    if (storedCourses) {
-      setCourses(JSON.parse(storedCourses));
-    }
+    fetchCourses();
   }, []);
 
-  const saveCourses = (updatedCourses: Course[]) => {
-    setCourses(updatedCourses);
-    localStorage.setItem("courses", JSON.stringify(updatedCourses));
+  const fetchCourses = async () => {
+    try {
+      const res = await fetch(API_BASE);
+      const data = await res.json();
+      setCourses(data);
+    } catch (error) {
+      console.error("Error fetching courses:", error);
+    }
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (isEditing && formData.id !== null) {
-      const updated = courses.map((course) =>
-        course.id === formData.id ? { ...formData, id: course.id } : course
-      );
-      saveCourses(updated);
-      setIsEditing(false);
-    } else {
-      const newCourse: Course = {
-        id: Date.now(),
-        title: formData.title,
-        description: formData.description,
-      };
-      saveCourses([...courses, newCourse]);
-    }
+    try {
+      const method = isEditing ? "PUT" : "POST";
+      const url = isEditing && editId ? `${API_BASE}/${editId}` : API_BASE;
 
-    setFormData({ id: null, title: "", description: "" });
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) throw new Error("Failed to submit course");
+
+      setFormData({ title: "", description: "" });
+      setIsEditing(false);
+      setEditId(null);
+      fetchCourses();
+    } catch (error) {
+      console.error("Error submitting course:", error);
+    }
   };
 
   const handleEdit = (course: Course) => {
-    setFormData(course);
+    setFormData({ title: course.title, description: course.description });
+    setEditId(course._id || null);
     setIsEditing(true);
   };
 
-  const handleDelete = (id: number) => {
-    if (confirm("Are you sure you want to delete this course?")) {
-      const updated = courses.filter((course) => course.id !== id);
-      saveCourses(updated);
+  const handleDelete = async (id?: string) => {
+    if (!id) return;
+    if (!confirm("Are you sure you want to delete this course?")) return;
+
+    try {
+      const res = await fetch(`${API_BASE}/${id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Delete failed");
+      fetchCourses();
+    } catch (error) {
+      console.error("Error deleting course:", error);
     }
   };
 
@@ -102,7 +110,6 @@ const CourseCrudPage: React.FC = () => {
         <table className="w-full border border-collapse">
           <thead className="bg-gray-100">
             <tr>
-              <th className="border p-2">ID</th>
               <th className="border p-2">Title</th>
               <th className="border p-2">Description</th>
               <th className="border p-2">Actions</th>
@@ -110,8 +117,7 @@ const CourseCrudPage: React.FC = () => {
           </thead>
           <tbody>
             {courses.map((course) => (
-              <tr key={course.id}>
-                <td className="border p-2">{course.id}</td>
+              <tr key={course._id}>
                 <td className="border p-2">{course.title}</td>
                 <td className="border p-2">{course.description}</td>
                 <td className="border p-2">
@@ -122,7 +128,7 @@ const CourseCrudPage: React.FC = () => {
                     Edit
                   </button>
                   <button
-                    onClick={() => handleDelete(course.id)}
+                    onClick={() => handleDelete(course._id)}
                     className="text-red-600 hover:underline"
                   >
                     Delete

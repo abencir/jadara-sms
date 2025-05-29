@@ -1,5 +1,4 @@
 import express from 'express';
-import { getCourseById } from '../controllers/courseController.js';
 import {
   createCourse,
   getCourses,
@@ -12,15 +11,10 @@ import adminAccess from '../middlewares/adminMiddelware.js';
 
 const router = express.Router();
 
-router.post('/course', authMiddleware, adminAccess ,createCourse);         
-router.get('/course', getCourses);             
-router.get('/course/:title',authMiddleware, getCourseByTitle);       
-router.put('/course/:title', authMiddleware, adminAccess,updateCourse);        
-router.delete('/course/:title', authMiddleware, adminAccess,deleteCourse);   
-router.get('/id/:id', authMiddleware, getCourseById);
-
-
-
-
+router.post('/',createCourse);         
+router.get('/', getCourses);             
+router.get('/:title',getCourseByTitle);       
+router.put('/:title',  updateCourse);        
+router.delete('/:title',deleteCourse);     
 
 export default router;

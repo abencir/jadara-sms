@@ -18,8 +18,8 @@ const router = Router();
 //       res.status(500).json({  error: err.message });
 //     }
 //   });
-router.get('/:userId', authMiddleware,getNotif);
-router.patch('/:notifId', authMiddleware, adminAccess ,markAsRead);
+router.get('/:userId',getNotif);
+router.patch('/:notifId', authMiddleware,markAsRead);
 router.delete('/:notifId', authMiddleware, adminAccess ,deleteNotif);
 
 export default router;

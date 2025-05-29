@@ -46,17 +46,14 @@ export function LoginForm({
   
       const data = res.data;
   
-      // Save token to localStorage
       localStorage.setItem("token", data.token);
   
-      // ✅ Save user in context
       saveUser({
         id: data.user.id,
         email: data.user.email,
         role: data.user.role,
       });
   
-      // Redirect based on role
       if (data.user.role === 'Admin') {
         navigate('/admindashboard');
       } else if (data.user.role === 'Student') {

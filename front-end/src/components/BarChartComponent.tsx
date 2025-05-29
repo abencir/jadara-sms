@@ -32,7 +32,7 @@ export function BarChartComponent() {
         return res.json();
       })
       .then((json) => {
-        setData(json); // Update state with API data
+        setData(json); 
       })
       .catch((err) => {
         console.error("Error fetching chart data:", err);

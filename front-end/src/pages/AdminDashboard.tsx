@@ -12,7 +12,7 @@ export default function Dashboard() {
         <PieChartComponent />
       </div>
       <div className="grid grid-cols-2 gap-6">
-        <Link to="/course" className="group transition-all duration-300 hover:scale-[1.02]">
+        <Link to="/course" className="group transition-all duration-300 hover:scale-[1.02] hover:bg-red-100">
           <IconCard icon={<SwatchBook size={48} />} />
         </Link>
         <Link to='/eventpage' className="group transition-all duration-300 hover:scale-[1.02]">

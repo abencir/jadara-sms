@@ -37,18 +37,25 @@ export function LoginForm({
     e.preventDefault();
     setLoading(true);
     setError(null);
-
+  
     try {
       const res = await axios.post('http://localhost:5000/api/users/login', {
         email,
         password,
       });
-
+  
       const data = res.data;
-
-      //  Save token to localStorage
+  
+      // Save token to localStorage
       localStorage.setItem("token", data.token);
-
+  
+      // ✅ Save user in context
+      saveUser({
+        id: data.user.id,
+        email: data.user.email,
+        role: data.user.role,
+      });
+  
       // Redirect based on role
       if (data.user.role === 'Admin') {
         navigate('/admindashboard');
@@ -64,6 +71,7 @@ export function LoginForm({
       setLoading(false);
     }
   };
+  
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>

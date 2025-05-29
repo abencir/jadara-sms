@@ -9,9 +9,7 @@ import CourseCrudPage from './components/CourseCrudPage';
 import './App.css'
 import UpdateProfile from './pages/UpdateProfile';
 import EventPage from './pages/EventPage';
-
-
-import AdminDashboard from './pages/AdminDashboard'
+import AdminDashboard from './pages/AdminDashboard';
 
 function App() {
   return (
@@ -26,6 +24,7 @@ function App() {
         <Route path='/eventpage' element={<Layout><EventPage /></Layout>} />
         <Route path='/' element={<Layout><MainPage /></Layout>}/>
         <Route path='/admindashboard' element={<Layout><AdminDashboard/></Layout>}/>
+        <Route path='/profile' element={<Layout><UpdateProfile/></Layout>}/>
       </Routes>
     </Router>
   );

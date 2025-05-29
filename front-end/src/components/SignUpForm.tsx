@@ -70,7 +70,7 @@ export default function SignUpForm() {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:3000/api/users/studentRegister", {
+      const response = await fetch("http://localhost:5000/api/users/studentRegister", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

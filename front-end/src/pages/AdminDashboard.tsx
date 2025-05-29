@@ -1,7 +1,8 @@
 import { BarChartComponent } from "../components/BarChartComponent";
 import PieChartComponent from "../components/PieChartComponent";
 import { IconCard } from "../components/IconCard";
-import { Users, Calendar } from "lucide-react";
+import { Users, Calendar, SwatchBook } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
   return (
@@ -11,8 +12,12 @@ export default function Dashboard() {
         <PieChartComponent />
       </div>
       <div className="grid grid-cols-2 gap-6">
-        <IconCard icon={<Users size={48} />} />
-        <IconCard icon={<Calendar size={48} />} />
+        <Link to="/course" className="group transition-all duration-300 hover:scale-[1.02] hover:bg-red-100">
+          <IconCard icon={<SwatchBook size={48} />} />
+        </Link>
+        <Link to='/eventpage' className="group transition-all duration-300 hover:scale-[1.02]">
+          <IconCard icon={<Calendar size={48} />} />
+        </Link>
       </div>
     </div>
   );

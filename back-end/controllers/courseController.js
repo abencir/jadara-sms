@@ -1,18 +1,17 @@
 import Course from '../models/course.js';
 
-
+// Créer un cours
 export const createCourse = async (req, res) => {
   try {
-    const course = req.body;
-    const newCourse = new Course(course);
+    const newCourse = new Course(req.body);
     await newCourse.save();
-    res.status(201).json(course);
+    res.status(201).json(newCourse);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-
+// Récupérer tous les cours
 export const getCourses = async (req, res) => {
   try {
     const courses = await Course.find();
@@ -22,46 +21,7 @@ export const getCourses = async (req, res) => {
   }
 };
 
-
-export const getCourseByTitle = async (req, res) => {
-    const courseTitle = req.params.title
-  try {
-    const course = await Course.findOne({title: courseTitle});
-    if (!course) return res.status(404).json({ message: 'Course not found' });
-    res.json(course);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-
-export const updateCourse = async (req, res) => {
-    const updateCourse = req.params.title
-  try {
-    const updated = await Course.findOneAndUpdate(
-      {title :updateCourse},
-      req.body,
-      { new: true }
-    );
-    if (!updated) return res.status(404).json({ message: 'Course not found' });
-    res.json(updated);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-export const deleteCourse = async (req, res) => {
-    const deletCourse = req.params.title
-  try {
-    const deleted = await Course.findOneAndDelete({title :deletCourse });
-    if (!deleted) return res.status(404).json({ message: 'Course not found' });
-    res.json({ message: 'Course deleted successfully' });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-
+// Récupérer un cours par son ID
 export const getCourseById = async (req, res) => {
   try {
     const course = await Course.findById(req.params.id);
@@ -71,5 +31,29 @@ export const getCourseById = async (req, res) => {
     res.json(course);
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+// Mettre à jour un cours par son ID
+export const updateCourse = async (req, res) => {
+  try {
+    const updated = await Course.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    if (!updated) return res.status(404).json({ message: 'Course not found' });
+    res.json(updated);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Supprimer un cours par son ID
+export const deleteCourse = async (req, res) => {
+  try {
+    const deleted = await Course.findByIdAndDelete(req.params.id);
+    if (!deleted) return res.status(404).json({ message: 'Course not found' });
+    res.json({ message: 'Course deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
